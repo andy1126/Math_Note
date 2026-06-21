@@ -39,9 +39,18 @@ tags:
 
 > [!abstract] 引理：Lagrange 恒等式
 > 对 S-L 型微分算子 $\mathcal{L}[y] = -\dfrac{d}{dx}\left[p(x)\dfrac{dy}{dx}\right] + q(x)y$，及任意两个具有二阶连续导数的函数 $u, v$，有：
-> $$\int_a^b \left[u \mathcal{L}[v] - v \mathcal{L}[u]\right] dx = -\big[p(x)(v u' - u v')\big]_a^b$$
+> $$\int_a^b \left[u \mathcal{L}[v] - v \mathcal{L}[u]\right] dx = \big[p(x)(v u' - u v')\big]_a^b$$
 >
-> **证明**：详见 [[Sturm-Liouville定理#预备定义]]中的推导，或直接由分部积分验证。
+> **证明**：由分部积分，
+> $$\begin{aligned}
+> \int_a^b u \mathcal{L}[v] dx &= -\int_a^b u (p v')' dx + \int_a^b q u v dx \\
+> &= -\big[u p v'\big]_a^b + \int_a^b u' p v' dx + \int_a^b q u v dx
+> \end{aligned}$$
+> 同理交换 $u,v$：
+> $$\int_a^b v \mathcal{L}[u] dx = -\big[v p u'\big]_a^b + \int_a^b v' p u' dx + \int_a^b q v u dx$$
+> 
+> 两式相减，含 $q$ 的积分和含 $u'v'$ 的积分相消，得：
+> $$\int_a^b (u \mathcal{L}[v] - v \mathcal{L}[u]) dx = -\big[p(u v' - v u')\big]_a^b \quad \square$$
 
 ---
 
@@ -188,6 +197,17 @@ $$\alpha_1 y(a) + \alpha_2 y'(a) = 0$$
 > 设 $\lambda_1$ 是最小特征值，则
 > $$\lambda_1 = \min_{y \neq 0} \frac{\int_a^b \left[p(x)(y')^2 + q(x)y^2\right] dx}{\int_a^b w(x)y^2\, dx}$$
 > 其中极小取遍满足边界条件的所有非零函数。更一般地，第 $n$ 个特征值可由极小-极大原理（min-max principle）刻画。
+> 
+> **推导**：设 $\phi$ 为对应 $\lambda$ 的特征函数。将 S-L 方程 $\mathcal{L}[\phi] = \lambda w \phi$ 两边与 $\phi$ 作内积：
+> $$\lambda = \frac{\langle \mathcal{L}[\phi], \phi \rangle}{\langle \phi, \phi \rangle_w} = \frac{-\int_a^b (p\phi')'\phi \, dx + \int_a^b q \phi^2 dx}{\int_a^b w \phi^2 dx}$$
+> 
+> 第一项分部积分（边界项由齐次边界条件消失）：
+> $$-\int_a^b (p\phi')'\phi \, dx = -[p\phi'\phi]_a^b + \int_a^b p(\phi')^2 dx = \int_a^b p(\phi')^2 dx$$
+> 
+> 故 Rayleigh 商为：
+> $$R[y] = \frac{\int_a^b \left[p(x)(y')^2 + q(x)y^2\right] dx}{\int_a^b w(x) y^2 dx}$$
+> 
+> 对特征函数 $\phi_n$，$R[\phi_n] = \lambda_n$。极小-极大原理进一步刻画了高阶特征值：$\lambda_n = \min_{Y_n} \max_{y \in Y_n\setminus\{0\}} R[y]$，其中 $Y_n$ 取遍 $n$ 维子空间。
 
 ---
 
@@ -277,3 +297,27 @@ $$x^2 y'' + xy' + (\lambda x^2 - \nu^2)y = 0$$
 > - 正交性保证级数展开的系数可由内积唯一确定：$c_n = \dfrac{\langle f, y_n \rangle_w}{\langle y_n, y_n \rangle_w}$
 > - 完备性保证展开可以在 $L^2$ 意义下逼近任意（足够光滑的）函数
 > - 振荡定理解释了为什么高阶模式有更多节点（如振动的弦、膜）
+
+---
+
+## 习题
+
+1. **正交代数验证**：对 S-L 问题 $y'' + \lambda y = 0$，$y(0) = y(\pi) = 0$，验证 $\lambda_n = n^2$，$\phi_n(x) = \sin(nx)$，并直接计算验证 $\int_0^\pi \sin(2x)\sin(3x)dx = 0$。
+
+2. **Lagrange 恒等式**：对 $p(x) = x$，$q(x) = 0$，直接计算验证 Lagrange 恒等式 $\int_a^b [u \mathcal{L}v - v \mathcal{L}u]dx = -[p(x)(vu' - uv')]_a^b$。
+
+3. **Rayleigh 商**：对 $y'' + \lambda y = 0$，$y(0) = y(1) = 0$，用 Rayleigh 商 $\lambda_1 = \inf_{y\neq 0} \frac{\int_0^1 (y')^2 dx}{\int_0^1 y^2 dx}$ 估计最小特征值。取试验函数 $y = x(1-x)$，给出 $\lambda_1$ 的上界估计。
+
+4. **加权正交性**：对 Legendre 方程的 S-L 形式 $(1-x^2)y'' - 2xy' + \lambda y = 0$，确定 $p(x), q(x), w(x)$，并验证正交关系中的权函数。
+
+5. **周期 S-L 问题**：对周期边界条件 $y(0) = y(2\pi)$，$y'(0) = y'(2\pi)$，求解 $y'' + \lambda y = 0$ 的特征值与特征函数。每个特征值的几何重数是多少？为何此处几何重数为 2 而非 1？
+
+6. **特征值的单调性**：考虑 $y'' + \lambda(1+x)y = 0$，$y(0) = y(1) = 0$。此问题与标准的 $y'' + \lambda y = 0$（$y(0)=y(1)=0$）相比，权函数 $w(x) = 1+x \geq 1$。定性地判断特征值将增大还是减小？说明理由。
+
+7. **应用：非均匀弦振动**：密度不均匀的弦的振动方程为 $\rho(x) u_{tt} = T u_{xx}$。写出分离变量后的 S-L 问题，确定权函数与质量密度的关系。
+
+> [!hint]- 部分提示
+> - 3: $\lambda_1 \approx 9.87$（精确值为 $\pi^2$），$x(1-x)$ 给出上界为 $10$
+> - 4: $p(x)=1-x^2, q(x)=0, w(x)=1$
+> - 5: $\lambda_n = n^2$（$n=0,1,2,\ldots$），$\lambda_0=0$ 重数为 1，$\lambda_n$（$n \geq 1$）重数为 2（$\cos nx$ 和 $\sin nx$）
+> - 6: $w(x) \geq 1$ 意味着 $\lambda_n$ 减小（质量增大导致频率降低的离散类比）

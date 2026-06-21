@@ -174,21 +174,54 @@ $$|u(x)|^2 \leq \left(\int_{-\infty}^{\infty} |\partial_1 u| dx_1\right) \left(\
 
 $$\int_{\mathbb{R}^2} |u|^2 dx \leq \int \left(\int |\partial_1 u| dx_1\right) \left(\int |\partial_2 u| dx_2\right) dx$$
 
-交换积分次序：
-$$= \left(\iint |\partial_1 u| dx_1 dx_2\right) \left(\iint |\partial_2 u| dx_1 dx_2\right) = \|\nabla u\|_{L^1}^2$$
+交换积分次序，由 Gagliardo 表示定理：
+$$\begin{aligned}
+\int_{\mathbb{R}^2} |u|^2 dx &\leq \int_{\mathbb{R}^2} \left(\int_{-\infty}^{\infty} |\partial_1 u| dx_1\right) \left(\int_{-\infty}^{\infty} |\partial_2 u| dx_2\right) dx \\
+&= \|\partial_1 u\|_{L^1} \|\partial_2 u\|_{L^1} \leq \frac{1}{2}\left(\|\partial_1 u\|_{L^1}^2 + \|\partial_2 u\|_{L^1}^2\right) \leq \|\nabla u\|_{L^1}^2
+\end{aligned}$$
 
 因此 $\|u\|_{L^2} \leq \|\nabla u\|_{L^1}$，即 $p = 1$ 时 $p^* = 2 = \dfrac{2 \cdot 1}{2-1}$。$\square$
 
-### 一般情形的证明思路
+### 一般情形的完整证明
 
-对一般 $p < n$，使用归纳法和Hölder不等式。
+#### 第一步：$p=1$ 情形的 Gagliardo-Nirenberg 不等式
 
-**关键步骤**：证明 $p = 1$ 时的嵌入：
-$$\|u\|_{L^{n/(n-1)}} \leq C \|\nabla u\|_{L^1}$$
+**断言**：对 $u \in C_c^1(\mathbb{R}^n)$，$\|u\|_{L^{n/(n-1)}} \leq \frac12 \prod_{i=1}^n \|\partial_i u\|_{L^1}^{1/n}$。
 
-然后对一般 $p$，令 $v = |u|^\gamma$，选择适当的 $\gamma$ 使得 $|v|$ 的导数可被控制。
+由基本微积分定理：
+$$u(x) = \int_{-\infty}^{x_i} \partial_i u(x_1, \ldots, t, \ldots, x_n) dt$$
 
-通过尺度分析（scaling argument）确定 $p^* = \dfrac{np}{n-p}$ 是唯一可能的临界指数。$\square$
+故 $|u(x)| \leq \int_{-\infty}^\infty |\partial_i u| dx_i =: g_i(x_1, \ldots, \widehat{x_i}, \ldots, x_n)$（与 $x_i$ 无关）。
+
+将 $|u(x)|$ 与所有 $g_i$ 的几何平均比较：$|u(x)|^{n/(n-1)} \leq \prod_{i=1}^n g_i(x)^{1/(n-1)}$。
+
+对 $x_1$ 逐次积分，利用广义 Hölder 不等式：
+$$\int_{\mathbb{R}^n} |u|^{n/(n-1)} dx \leq \prod_{i=1}^n \left( \int_{\mathbb{R}^n} |\partial_i u| dx \right)^{1/(n-1)}$$
+
+取 $n/(n-1)$ 次根即得 $p=1$ 时的嵌入：$\|u\|_{L^{n/(n-1)}} \leq C \|\nabla u\|_{L^1}$。$\square$
+
+#### 第二步：推广到一般 $p < n$
+
+对 $u \in C_c^1(\mathbb{R}^n)$，令 $v = |u|^\gamma$（$\gamma > 1$ 待定）。则 $|\nabla v| = \gamma |u|^{\gamma-1} |\nabla u|$。
+
+对 $v$ 应用 $p=1$ 的结论（$\alpha = n/(n-1)$）：
+$$\|u\|_{L^{\gamma\alpha}}^{\gamma} = \|v\|_{L^\alpha} \leq C \|\nabla v\|_{L^1} = C\gamma \int |u|^{\gamma-1} |\nabla u| dx$$
+
+由 Hölder 不等式（指数 $p$ 与 $p' = p/(p-1)$）：
+$$\int |u|^{\gamma-1} |\nabla u| dx \leq \|u\|_{L^{(\gamma-1)p'}}^{(\gamma-1)} \|\nabla u\|_{L^p}$$
+
+选择 $\gamma$ 使 $(\gamma-1)p' = \gamma\alpha$，即 $\gamma = \frac{p(n-1)}{n-p}$。则 $\gamma\alpha = \frac{np}{n-p} = p^*$。
+
+整理得：$\|u\|_{L^{p^*}} \leq C \|\nabla u\|_{L^p}$，其中 $C$ 依赖于 $n, p$。$\square$
+
+#### 第三步：尺度分析确定 $p^*$
+
+对 $\mathbb{R}^n$ 上的函数作缩放 $u_\lambda(x) = u(\lambda x)$（$\lambda > 0$）。若 $\|u\|_{L^q} \leq C \|\nabla u\|_{L^p}$ 对某 $q$ 成立，则：
+$$\|u_\lambda\|_{L^q} = \lambda^{-n/q} \|u\|_{L^q}, \quad \|\nabla u_\lambda\|_{L^p} = \lambda^{1-n/p} \|\nabla u\|_{L^p}$$
+
+代入不等式：$\lambda^{-n/q} \|u\|_{L^q} \leq C \lambda^{1-n/p} \|\nabla u\|_{L^p}$。
+
+$u$ 任意，令 $\lambda \to 0$ 和 $\lambda \to \infty$，可得 $-n/q = 1 - n/p$，即 $q = \frac{np}{n-p} = p^*$。这是唯一可能的临界指数。$\square$
 
 ---
 
@@ -196,7 +229,7 @@ $$\|u\|_{L^{n/(n-1)}} \leq C \|\nabla u\|_{L^1}$$
 
 当 $kp = n$ 时，$W^{k,p}$ 可以嵌入到任意 $L^q$（$q < \infty$），但不能嵌入到 $L^\infty$。
 
-**反例**：设 $\Omega = B_1(0) \subset \mathbb{R}^2$，$u(x) = \ln|\ln|x||$。
+**反例**：设 $\Omega = B_{1/e}(0) \subset \mathbb{R}^2$，$u(x) = \ln|\ln|x||$。
 
 - $u \in W^{1,2}(\Omega)$（因为 $kp = 2 = n$）
 - 但 $u \notin L^\infty(\Omega)$（在 $x = 0$ 附近无界）
@@ -321,3 +354,27 @@ $$\|u(\cdot + h) - u\|_{L^q} \leq \|u(\cdot + h) - u\|_{L^1}^\theta \|u(\cdot + 
 > - **分数阶Sobolev空间**：$W^{s,p}$，$s \in \mathbb{R}$，通过Fourier变换或插值定义
 > - **迹定理**：$W^{1,p}(\Omega) \to L^q(\partial\Omega)$ 的限制映射
 > - **演化方程**：抛物型Sobolev空间 $L^p(0,T; W^{k,p}(\Omega))$
+
+---
+
+## 习题
+
+1. **嵌入判定**：对 $n=2$，$W^{1,3}(\Omega)$ 嵌入到什么 Hölder 空间？嵌入指数 $\alpha$ 是多少？
+
+2. **临界指数计算**：对 $\mathbb{R}^4$ 上的 $W^{2,2}$ 空间，利用 Sobolev 嵌入确定 $p^*$。$W^{2,2}(\mathbb{R}^4)$ 是否嵌入到 $L^\infty$？
+
+3. **尺度分析**：通过变量缩放 $x \mapsto \lambda x$ 推导 $W^{k,p}(\mathbb{R}^n)$ 嵌入 $L^q(\mathbb{R}^n)$ 时 $q = p^* = np/(n-kp)$ 的必要性。
+
+4. **临界情形反例**：验证 $u(x) = \ln|\ln|x||$ 在 $\mathbb{R}^2$ 的单位球 $B_1(0)$ 上属于 $W^{1,2}$ 但不属于 $L^\infty$。
+
+5. **一维 Sobolev 嵌入**：在 $n=1$ 时，证明 $W^{1,1}(a,b) \hookrightarrow C([a,b])$ 且嵌入是紧的。这对应了实分析中的什么经典结论？
+
+6. **Poincaré 不等式**：对 $u \in W_0^{1,2}(0,1)$，证明 $\|u\|_{L^2} \leq \frac{1}{\pi} \|u'\|_{L^2}$。提示：用 Fourier 正弦展开。
+
+7. **嵌入的最优性**：证明 $W^{1,n}(\mathbb{R}^n) \not\hookrightarrow L^\infty(\mathbb{R}^n)$。提示：构造径向无界但梯度在 $L^n$ 中的函数。
+
+> [!hint]- 部分提示
+> - 1: $p=3, n=2$，$p > n$，Morrey 情形。$\alpha = 1 - n/p = 1/3$
+> - 2: $k=2, p=2, n=4$，$kp = 4 = n$，临界情形。嵌入到任意 $L^q$（$q < \infty$）但不到 $L^\infty$
+> - 5: $W^{1,1}$ 函数是绝对连续函数
+> - 6: 用 Fourier 展开 $u = \sum b_n \sin(n\pi x)$，$\|u\|_{L^2}^2 = \frac12 \sum b_n^2$，$\|u'\|_{L^2}^2 = \frac{\pi^2}{2}\sum n^2 b_n^2$。最差值 $n=1$ 给出因子 $1/\pi$
